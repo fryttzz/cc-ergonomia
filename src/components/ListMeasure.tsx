@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { SafeAreaView, StyleSheet, Text } from "react-native";
-import {
-  MeasureContext,
-  MeasureDispatchContext,
-} from "@/context/MeasureContext";
+import { MeasureDispatchContext } from "@/context/MeasureContext";
 import ListButton from "@/components/ListButton";
 import MeasureCard from "@/components/MeasureCard";
 import { MeasureDatabase } from "@/database/useMeasureDatabase";

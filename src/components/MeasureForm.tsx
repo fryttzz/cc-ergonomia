@@ -1,16 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useMeasureDatabase } from "@/database/useMeasureDatabase";
 import { MeasureContext } from "@/context/MeasureContext";
-
-import Trashcan from "../../assets/trashcan.svg";
 
 import DefaultInput from "./DefaultInput";
 import ActionButton from "./ActionButton";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useLogout } from "@/hooks/useLogout";
-import { router } from "expo-router";
 
 export function MeasureForm() {
   const { user } = useAuthContext();
@@ -116,10 +113,10 @@ export function MeasureForm() {
     setDescription("");
   }
 
-  const handleLogout = async () => {
-    await logout();
-    router.replace("/login");
-  };
+  // const handleLogout = async () => {
+  //   await logout();
+  //   router.replace("/login");
+  // };
 
   useEffect(() => {
     if (measureDetails != "") {
@@ -153,22 +150,25 @@ export function MeasureForm() {
         onChangeText={setDescription}
         value={description}
       />
-      <View style={styles.actions}>
-        <ActionButton
-          backgroundColor={Colors.dark.buttonBackground}
-          color={Colors.light.primary}
-          label="LIMPAR"
-          activeOpacity={0.7}
-          onPress={() => handleLogout()}
-        />
-        <ActionButton
-          backgroundColor={Colors.dark.buttonBackground}
-          color={Colors.light.primary}
-          activeOpacity={0.7}
-          onPress={() => handleDelete()}
-        >
-          <Trashcan />
-        </ActionButton>
+      <View style={id == "" ? styles.actionsCreate : styles.actionsEdit}>
+        {id ? (
+          <>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              activeOpacity={0.7}
+              onPress={() => handleDelete()}
+            >
+              <Text style={styles.deleteButtonLabel}>APAGAR</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              activeOpacity={0.7}
+              onPress={() => handleClear()}
+            >
+              <Text style={styles.cancelButtonLabel}>CANCELAR</Text>
+            </TouchableOpacity>
+          </>
+        ) : null}
         <ActionButton
           backgroundColor={Colors.dark.primary}
           color={Colors.dark.background}
@@ -185,9 +185,48 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.light.background,
   },
-  actions: {
+  actionsCreate: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginTop: 16,
+  },
+  actionsEdit: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 16,
+  },
+  deleteButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 32,
+    width: "auto",
+    borderRadius: 12,
+    borderColor: Colors.light.error,
+    borderWidth: 2,
+    paddingHorizontal: 8,
+  },
+  deleteButtonLabel: {
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: "center",
+    letterSpacing: 0.1,
+    color: Colors.dark.textError,
+  },
+  cancelButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 32,
+    width: "auto",
+    borderRadius: 12,
+    borderColor: Colors.dark.background,
+    borderWidth: 2,
+    paddingHorizontal: 8,
+  },
+  cancelButtonLabel: {
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: "center",
+    letterSpacing: 0.1,
+    color: Colors.dark.background,
   },
 });
