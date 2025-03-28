@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { useLogin } from "@/hooks/useLogin";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "@/constants/Colors";
 
 import Icon from "../../assets/images/icon.png";
 import { router } from "expo-router";
+import DefaultInput from "@/components/DefaultInput";
+import ActionButton from "@/components/ActionButton";
 
 export default function SignIn() {
   const { login } = useLogin();
-  const [email, setEmail] = useState("admin");
-  const [password, setPassword] = useState("admin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignIn = async () => {
     await login(email, password);
+    router.replace({ pathname: "/(app)" });
   };
 
   return (
@@ -25,14 +28,22 @@ export default function SignIn() {
         <Text style={styles.subtitle}>
           Entre com sua conta para desfrutar dos benefícios
         </Text>
-        <Text
-          onPress={() => {
-            handleSignIn();
-            router.replace({ pathname: "/(app)" });
-          }}
-        >
-          Sign In
-        </Text>
+        <DefaultInput
+          label="E-mail:"
+          accessibilityLabel="E-mail:"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <DefaultInput
+          label="Senha:"
+          accessibilityLabel="Senha:"
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+          <Text style={styles.loginButtonLabel}>ENTRAR</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -67,7 +78,23 @@ const styles = StyleSheet.create({
     color: Colors.light.textSecondary,
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 40,
+    marginBottom: 16,
     lineHeight: 22,
+  },
+  loginButton: {
+    backgroundColor: Colors.light.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 32,
+    width: "auto",
+    borderRadius: 12,
+    marginTop: 16,
+  },
+  loginButtonLabel: {
+    color: Colors.dark.cardBackground,
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: "center",
+    letterSpacing: 0.1,
   },
 });
