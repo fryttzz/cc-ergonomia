@@ -20,7 +20,7 @@ export const Colors = {
     textError: "#245EA7",
     shape: "#252836",
     note: "#4E4E5D",
-    defaultText: "#000000",
+    defaultText: "#323232",
     statusbar: "dark",
     line: "#c4c4c4",
     darkText: "#323232"
