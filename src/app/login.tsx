@@ -6,7 +6,6 @@ import { Colors } from "@/constants/Colors";
 import Icon from "../../assets/images/icon.png";
 import { router } from "expo-router";
 import DefaultInput from "@/components/DefaultInput";
-import ActionButton from "@/components/ActionButton";
 
 export default function SignIn() {
   const { login } = useLogin();
