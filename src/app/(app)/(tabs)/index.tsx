@@ -38,8 +38,7 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-    padding: 32,
-    gap: 16,
+    padding: 26,
     overflow: "hidden",
   },
 });

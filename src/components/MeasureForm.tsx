@@ -2,16 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useMeasureDatabase } from "@/database/useMeasureDatabase";
-import { MeasureContext } from "@/context/MeasureContext";
+import {
+  MeasureContext,
+  MeasureDispatchContext,
+} from "@/context/MeasureContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 import DefaultInput from "./DefaultInput";
 import ActionButton from "./ActionButton";
-import { useAuthContext } from "@/hooks/useAuthContext";
-import { useLogout } from "@/hooks/useLogout";
 
 export function MeasureForm() {
   const { user } = useAuthContext();
-  const { logout } = useLogout();
   const [id, setId] = useState("");
   const [sugarLevel, setSugarLevel] = useState("");
   const [date, setDate] = useState("");
@@ -20,6 +21,7 @@ export function MeasureForm() {
   const [userId, setUserId] = useState(user?.id);
 
   const measureDetails = useContext(MeasureContext);
+  const setMeasureDetails = useContext(MeasureDispatchContext);
 
   const measureDatabase = useMeasureDatabase();
 
@@ -111,6 +113,7 @@ export function MeasureForm() {
     setDate("");
     setTime("");
     setDescription("");
+    setMeasureDetails("");
   }
 
   // const handleLogout = async () => {

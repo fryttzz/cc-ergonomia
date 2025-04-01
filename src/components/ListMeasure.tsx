@@ -13,11 +13,11 @@ export default function ListMeasure() {
   const [measures, setMeasures] = useState<MeasureDatabase[]>([]);
   const setMeasureDetails = useContext(MeasureDispatchContext);
 
-  const measureDatabase = useMeasureDatabase();
+  const { getMeasures } = useMeasureDatabase();
 
-  async function list() {
+  async function handleGetMeasures() {
     try {
-      const response = await measureDatabase.list();
+      const response = await getMeasures();
       setMeasures(response);
     } catch (error) {
       console.log(error);
@@ -30,17 +30,11 @@ export default function ListMeasure() {
   }
 
   useEffect(() => {
-    list();
+    handleGetMeasures();
   });
 
   return (
     <SafeAreaView style={styles.container}>
-      <ListButton
-        title="Lista de Medições"
-        onPress={() => alert("Lista de Lista de Medições")}
-        expand={false}
-        style={styles.listHeader}
-      />
       {measures.length > 0 ? (
         measures.map((item) => (
           <MeasureCard
@@ -63,6 +57,7 @@ export default function ListMeasure() {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
   list: {},
   listHeader: {},

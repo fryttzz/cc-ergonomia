@@ -49,16 +49,14 @@ export default function CountCard({
           </View>
         </View>
       </View>
-      {description ? (
-        <View style={styles.row2}>
-          <View>
-            <Text style={styles.prefix}>Descrição:</Text>
-          </View>
-          <View>
-            <Text style={styles.numbers}>{description}</Text>
-          </View>
+      <View style={styles.row2}>
+        <View>
+          <Text style={styles.prefix}>Descrição:</Text>
         </View>
-      ) : null}
+        <View>
+          <Text style={styles.numbers}>{description}</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -66,9 +64,10 @@ export default function CountCard({
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    height: 65,
+    height: 80,
     borderBottomColor: Colors.dark.listBorder,
     borderBottomWidth: 1,
+    marginBottom: 16,
   },
   row1: {
     flexDirection: "row",
@@ -89,14 +88,16 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   numbers: {
+    alignSelf: "flex-end",
     color: Colors.dark.primary,
-    fontSize: 14,
+    fontSize: 16,
     letterSpacing: 0.1,
+    marginLeft: 8,
   },
   prefix: {
+    alignSelf: "flex-start",
     color: Colors.dark.HighlightFix,
-    fontSize: 14,
+    fontSize: 16,
     letterSpacing: 0.1,
   },
-  quant: {},
 });

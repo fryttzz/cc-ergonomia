@@ -69,9 +69,9 @@ export function useMeasureDatabase() {
     }
   }
 
-  async function list() {
+  async function getMeasures() {
     try {
-      const query = `SELECT * FROM measures WHERE userId = ${user?.id} ORDER BY date DESC`;
+      const query = `SELECT * FROM measures WHERE userId = ${user?.id} ORDER BY id DESC`;
 
       const response = await database.getAllAsync<MeasureDatabase>(
         query,
@@ -122,7 +122,7 @@ export function useMeasureDatabase() {
     create,
     getMeasureById,
     update,
-    list,
+    getMeasures,
     deleteMeasure,
   };
 }
