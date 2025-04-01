@@ -1,7 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { MeasureForm } from "@/components/MeasureForm";
 import { ScrollView } from "react-native";
 import { useLogout } from "@/hooks/useLogout";
@@ -25,10 +24,10 @@ export default function HomeScreen() {
         showBackButton={false}
         onPress={handleLogout}
       />
-      <ThemedView style={styles.stepContainer}>
+      <View style={styles.stepContainer}>
         <ThemedText type="title">Cadastro de Medições</ThemedText>
         <MeasureForm />
-      </ThemedView>
+      </View>
     </ScrollView>
   );
 }

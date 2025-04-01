@@ -5,7 +5,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Slot } from "expo-router";
+import { Slot, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -13,11 +13,13 @@ import { SQLiteProvider } from "expo-sqlite";
 import { initializeDatabase } from "@/database/initializeDatabase";
 import { MeasureProvider } from "@/context/MeasureContext";
 import { AuthContextProvider } from "@/context/AuthContext";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
   const [loaded] = useFonts({
     SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
   });

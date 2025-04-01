@@ -1,6 +1,5 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 
-import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import ListMeasure from "@/components/ListMeasure";
 import DefaultHeader from "@/components/DefaultHeader";
@@ -16,9 +15,9 @@ export default function TabTwoScreen() {
   return (
     <ScrollView style={styles.container}>
       <DefaultHeader title="Lista de Medições" onPress={handleGoBack}/>
-      <ThemedView style={styles.titleContainer}>
+      <View style={styles.titleContainer}>
         <ListMeasure />
-      </ThemedView>
+      </View>
     </ScrollView>
   );
 }

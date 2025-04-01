@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: 70,
-    marginTop: 16,
+    marginTop: 17,
     padding: 10,
     borderRadius: 12,
   },
@@ -59,12 +59,11 @@ export const styles = StyleSheet.create({
   },
   inputLabel: {
     color: Colors.light.primary,
-    fontSize: 16,
-    paddingBottom: 5,
+    fontSize: 17,
   },
   inputText: {
     width: "100%",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.dark.textSecondary,
   },
   inputSuffix: {

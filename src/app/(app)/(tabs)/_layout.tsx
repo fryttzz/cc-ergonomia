@@ -3,18 +3,14 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { useEffect } from "react";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { user } = useAuthContext();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!user) {
-      router.replace("/login");
-    }
-  }, [user]);
+  if (!user) {
+    return <Redirect href="/login" />;
+  }
 
   return (
     <Tabs

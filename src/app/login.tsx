@@ -1,29 +1,46 @@
 import React, { useState } from "react";
 import { useLogin } from "@/hooks/useLogin";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
+import { router } from "expo-router";
 
 import Icon from "../../assets/images/icon.png";
-import { router } from "expo-router";
+import IconShowPassword from "../../assets/show.svg";
+import IconHidePassword from "../../assets/hide.svg";
+
 import DefaultInput from "@/components/DefaultInput";
 
 export default function SignIn() {
   const { login } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleSignIn = async () => {
     await login(email, password);
     router.replace({ pathname: "/(app)" });
   };
 
+  const handleSetTextEntry = () => {
+    if (secureTextEntry) {
+      setSecureTextEntry(false);
+    } else {
+      setSecureTextEntry(true);
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Image source={Icon} style={styles.image} />
       <View style={styles.content}>
-        <Text style={styles.title}>
-          Organize suas {`\n`} medições {`\n`} facilmente
-        </Text>
+        <Text style={styles.title}>Organize suas medições facilmente</Text>
         <Text style={styles.subtitle}>
           Entre com sua conta para desfrutar dos benefícios
         </Text>
@@ -32,37 +49,44 @@ export default function SignIn() {
           accessibilityLabel="E-mail:"
           onChangeText={setEmail}
           value={email}
+          autoCapitalize="none"
         />
         <DefaultInput
           label="Senha:"
           accessibilityLabel="Senha:"
           onChangeText={setPassword}
           value={password}
-          secureTextEntry
-        />
+          autoCapitalize="none"
+          secureTextEntry={secureTextEntry}
+        >
+          {secureTextEntry ? (
+            <IconShowPassword style={styles.showPassword} onPress={handleSetTextEntry}/>
+          ) : (
+            <IconHidePassword style={styles.hidePassword} onPress={handleSetTextEntry}/>
+          )}
+        </DefaultInput>
         <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
           <Text style={styles.loginButtonLabel}>ENTRAR</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
     height: "100%",
   },
   image: {
-    marginTop: 100,
     width: 150,
     height: 150,
+    alignSelf: "center",
+    marginTop: 46,
   },
   content: {
-    marginTop: -40,
-    paddingHorizontal: 50,
+    marginTop: 46,
+    paddingHorizontal: 26,
   },
   title: {
     color: Colors.light.textPrimary,
@@ -77,7 +101,6 @@ const styles = StyleSheet.create({
     color: Colors.light.textSecondary,
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 16,
     lineHeight: 22,
   },
   loginButton: {
@@ -95,5 +118,16 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     textAlign: "center",
     letterSpacing: 0.1,
+  },
+  showPassword: {
+    width: 20,
+    height: 20,
+    color: Colors.light.defaultText,
+  },
+  hidePassword: {
+    width: 20,
+    height: 20,
+    color: Colors.light.defaultText,
+
   },
 });
