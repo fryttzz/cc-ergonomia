@@ -55,6 +55,14 @@ export default function SignIn() {
     )}.${digitosLimitados.slice(6, 9)}-${digitosLimitados.slice(9)}`;
   };
 
+  const handleConfirmPassword = (): boolean => {
+    if (password === confirmPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleSignIn = async () => {
     await login(email, password);
     router.replace({ pathname: "/(app)" });
