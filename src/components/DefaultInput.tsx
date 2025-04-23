@@ -49,9 +49,12 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.dark.cardBackground,
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 70,
-    marginTop: 17,
-    padding: 10,
+    height: 60,
+    marginTop: 16,
+    paddingBottom: 8,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 2,
     borderRadius: 12,
   },
   inputTextContainer: {
@@ -65,6 +68,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     fontSize: 16,
     color: Colors.dark.textSecondary,
+    lineHeight: 13
   },
   inputSuffix: {
     justifyContent: "flex-end",

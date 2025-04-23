@@ -7,11 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
 
-import Icon from "../../assets/images/icon.png";
 import IconShowPassword from "../../assets/show.svg";
 import IconHidePassword from "../../assets/hide.svg";
 
@@ -19,17 +20,48 @@ import DefaultInput from "@/components/DefaultInput";
 
 export default function SignIn() {
   const { login } = useLogin();
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+
+  const formatarCpfInput = (valor: string): string => {
+    if (valor === null || valor === undefined) {
+      return "";
+    }
+    const digitos = valor.replace(/\D/g, "");
+    const digitosLimitados = digitos.slice(0, 11);
+    const len = digitosLimitados.length;
+
+    if (len <= 3) {
+      return digitosLimitados;
+    }
+    if (len <= 6) {
+      return `${digitosLimitados.slice(0, 3)}.${digitosLimitados.slice(3)}`;
+    }
+    if (len <= 9) {
+      return `${digitosLimitados.slice(0, 3)}.${digitosLimitados.slice(
+        3,
+        6
+      )}.${digitosLimitados.slice(6)}`;
+    }
+    return `${digitosLimitados.slice(0, 3)}.${digitosLimitados.slice(
+      3,
+      6
+    )}.${digitosLimitados.slice(6, 9)}-${digitosLimitados.slice(9)}`;
+  };
 
   const handleSignIn = async () => {
     await login(email, password);
     router.replace({ pathname: "/(app)" });
   };
 
-  const handleSignUp = async () => {
-    router.replace({ pathname: "/signup" });
+  const handleCancel = async () => {
+    router.replace({ pathname: "/login" });
   };
 
   const handleSetTextEntry = () => {
@@ -42,12 +74,38 @@ export default function SignIn() {
 
   return (
     <ScrollView style={styles.container}>
-      <Image source={Icon} style={styles.image} />
       <View style={styles.content}>
-        <Text style={styles.title}>Organize suas medições facilmente</Text>
         <Text style={styles.subtitle}>
-          Entre com sua conta para desfrutar dos benefícios
+          Crie sua conta para desfrutar dos benefícios
         </Text>
+        <DefaultInput
+          label="Nome:"
+          accessibilityLabel="Nome:"
+          onChangeText={setName}
+          value={name}
+          autoCapitalize="none"
+        />
+        <DefaultInput
+          label="CPF:"
+          accessibilityLabel="CPF:"
+          onChangeText={setCpf}
+          value={cpf}
+          keyboardType="number-pad"
+        />
+        <DefaultInput
+          label="Data de Nacimento:"
+          accessibilityLabel="Data de Nacimento:"
+          onChangeText={setBirthDate}
+          value={birthDate}
+          keyboardType="number-pad"
+        />
+        <DefaultInput
+          label="Endereço:"
+          accessibilityLabel="Endereço:"
+          onChangeText={setAddress}
+          value={address}
+          keyboardType="number-pad"
+        />
         <DefaultInput
           label="E-mail:"
           accessibilityLabel="E-mail:"
@@ -75,20 +133,39 @@ export default function SignIn() {
             />
           )}
         </DefaultInput>
+        <DefaultInput
+          label="Confirmar Senha:"
+          accessibilityLabel="Confirmar Senha:"
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
+          autoCapitalize="none"
+          secureTextEntry={secureTextEntry}
+        >
+          {secureTextEntry ? (
+            <IconShowPassword
+              style={styles.showPassword}
+              onPress={handleSetTextEntry}
+            />
+          ) : (
+            <IconHidePassword
+              style={styles.hidePassword}
+              onPress={handleSetTextEntry}
+            />
+          )}
+        </DefaultInput>
         <TouchableOpacity
           style={styles.loginButton}
           onPress={handleSignIn}
           activeOpacity={0.8}
         >
-          <Text style={styles.loginButtonLabel}>ENTRAR</Text>
+          <Text style={styles.loginButtonLabel}>SALVAR</Text>
         </TouchableOpacity>
-        <Text style={styles.signUpText}>Não possui uma conta?</Text>
         <TouchableOpacity
           style={styles.signUpButton}
-          onPress={handleSignUp}
+          onPress={handleCancel}
           activeOpacity={0.8}
         >
-          <Text style={styles.signUpButtonLabel}>CRIAR CONTA</Text>
+          <Text style={styles.signUpButtonLabel}>CANCELAR</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -99,12 +176,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: "100%",
-  },
-  image: {
-    width: 150,
-    height: 150,
-    alignSelf: "center",
-    marginTop: 46,
   },
   content: {
     marginTop: 46,
@@ -121,7 +192,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: Colors.light.textSecondary,
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "center",
     lineHeight: 22,
   },
@@ -141,13 +212,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     letterSpacing: 0.1,
   },
-  signUpText: {
-    textAlign: "center",
-    color: Colors.light.primary,
-    marginTop: 16,
-    marginBottom: 6,
-    fontSize: 16,
-  },
   signUpButton: {
     borderColor: Colors.light.primary,
     borderWidth: 2,
@@ -155,6 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 32,
     width: "auto",
+    marginTop: 16,
     borderRadius: 12,
   },
   signUpButtonLabel: {
