@@ -1,24 +1,38 @@
 import { useSQLiteContext } from "expo-sqlite";
 
 export type UserDatabase = {
-  id: number;
+  id?: number;
   name: string;
+  cpf: string;
+  birthdate: string;
   email: string;
+  cep: string;
+  street: string;
+  district: string;
+  city: string;
+  state: string;
   password: string;
 };
 
 export function useUserDatabase() {
   const database = useSQLiteContext();
 
-  async function create(data: Omit<UserDatabase, "id">) {
+  async function create(data: UserDatabase) {
     const statement = await database.prepareAsync(
-      "INSERT INTO users (name, email, password) VALUES ($name, $email, $password)"
+      "INSERT INTO users (name, cpf, birthdate, email, cep, street, district, city, state, password ) VALUES ($name, $cpf, $birthdate, $email, $cep, $street, $district, $city, $state, $password)"
     );
 
     try {
       const result = await statement.executeAsync({
         $name: data.name,
+        $cpf: data.cpf,
+        $birthdate: data.birthdate,
         $email: data.email,
+        $cep: data.cep,
+        $street: data.street,
+        $district: data.district,
+        $city: data.city,
+        $state: data.state,
         $password: data.password,
       });
 
@@ -67,9 +81,15 @@ export function useUserDatabase() {
 
     try {
       const result = await statement.executeAsync({
-        $id: data.id,
         $name: data.name,
+        $cpf: data.cpf,
+        $birthdate: data.birthdate,
         $email: data.email,
+        $cep: data.cep,
+        $street: data.street,
+        $district: data.district,
+        $city: data.city,
+        $state: data.state,
         $password: data.password,
       });
     } catch (error) {

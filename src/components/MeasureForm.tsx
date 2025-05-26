@@ -91,6 +91,59 @@ export function MeasureForm() {
     handleClear();
   }
 
+  const inputDateFormating = (valor: string): string => {
+    if (valor === null || valor === undefined) {
+      return "";
+    }
+    const digitos = valor.replace(/\D/g, "");
+    const digitosLimitados = digitos.slice(0, 8);
+    const len = digitosLimitados.length;
+
+    if (len <= 2) {
+      return digitosLimitados;
+    }
+    if (len <= 4) {
+      return `${digitosLimitados.slice(0, 2)}/${digitosLimitados.slice(2)}`;
+    }
+    return `${digitosLimitados.slice(0, 2)}/${digitosLimitados.slice(
+      2,
+      4
+    )}/${digitosLimitados.slice(4)}`;
+  };
+
+  const handleDataChange = (valor: string) => {
+    const dataFormatada = inputDateFormating(valor);
+    setDate(dataFormatada);
+
+    const dataLimpa = valor.replace(/\D/g, "");
+    if (dataLimpa.length === 8) {
+      if (!dateValidation(dataFormatada)) {
+        Alert.alert("Erro", "Data inválida. Verifique se a data está correta.");
+      }
+    }
+  };
+
+  const dateValidation = (data: string): boolean => {
+    const dataLimpa = data.replace(/\D/g, "");
+
+    if (dataLimpa.length !== 8) return false;
+
+    const dia = parseInt(dataLimpa.slice(0, 2));
+    const mes = parseInt(dataLimpa.slice(2, 4));
+    const ano = parseInt(dataLimpa.slice(4, 8));
+
+    if (dia < 1 || dia > 31) return false;
+    if (mes < 1 || mes > 12) return false;
+    if (ano < 1900 || ano > new Date().getFullYear()) return false;
+
+    const dataObj = new Date(ano, mes - 1, dia);
+    return (
+      dataObj.getDate() === dia &&
+      dataObj.getMonth() === mes - 1 &&
+      dataObj.getFullYear() === ano
+    );
+  };
+
   async function handleMeasure(measureId: string | string[]) {
     try {
       const response = await measureDatabase.getMeasureById(String(measureId));
@@ -137,9 +190,11 @@ export function MeasureForm() {
       />
       <DefaultInput
         label="Data:"
-        accessibilityLabel="Data"
-        onChangeText={setDate}
+        accessibilityLabel="Data da Medição:"
+        onChangeText={handleDataChange}
         value={date}
+        keyboardType="number-pad"
+        placeholder="DD/MM/AAAA"
       />
       <DefaultInput
         label="Horário:"

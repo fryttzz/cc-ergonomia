@@ -39,7 +39,7 @@ export default function RootLayout() {
       <AuthContextProvider>
         <MeasureProvider>
           <SQLiteProvider
-            databaseName="ergonomia.db"
+            databaseName="ccergonomia.db"
             onInit={initializeDatabase}
           >
             <StatusBar backgroundColor={Colors.dark.background} />

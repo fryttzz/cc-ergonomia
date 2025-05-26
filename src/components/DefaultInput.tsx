@@ -46,7 +46,9 @@ export default function DefaultInput({
 
 export const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: Colors.dark.cardBackground,
+    borderColor: Colors.light.primary,
+    borderWidth: 1,
+    borderRadius: 12,
     flexDirection: "row",
     justifyContent: "space-between",
     height: 60,
@@ -55,7 +57,6 @@ export const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     paddingTop: 2,
-    borderRadius: 12,
   },
   inputTextContainer: {
     flex: 1,
@@ -68,7 +69,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     fontSize: 16,
     color: Colors.dark.textSecondary,
-    lineHeight: 13
+    textAlignVertical: "bottom"
   },
   inputSuffix: {
     justifyContent: "flex-end",
