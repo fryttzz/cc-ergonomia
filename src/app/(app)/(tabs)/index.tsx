@@ -7,9 +7,11 @@ import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import DefaultHeader from "@/components/DefaultHeader";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function HomeScreen() {
   const { logout } = useLogout();
+  const { user } = useAuthContext();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -20,7 +22,7 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container}>
       <DefaultHeader
-        title="Olá, Matheus Santos"
+        title={"Olá, " + user?.name}
         showBackButton={false}
         onPress={handleLogout}
       />

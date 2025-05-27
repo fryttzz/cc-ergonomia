@@ -111,6 +111,20 @@ export function MeasureForm() {
     )}/${digitosLimitados.slice(4)}`;
   };
 
+  const inputTimeFormating = (valor: string): string => {
+    if (valor === null || valor === undefined) {
+      return "";
+    }
+    const digitos = valor.replace(/\D/g, "");
+    const digitosLimitados = digitos.slice(0, 4);
+    const len = digitosLimitados.length;
+
+    if (len <= 2) {
+      return digitosLimitados;
+    }
+    return `${digitosLimitados.slice(0, 2)}:${digitosLimitados.slice(2)}`;
+  };
+
   const handleDataChange = (valor: string) => {
     const dataFormatada = inputDateFormating(valor);
     setDate(dataFormatada);
@@ -119,6 +133,18 @@ export function MeasureForm() {
     if (dataLimpa.length === 8) {
       if (!dateValidation(dataFormatada)) {
         Alert.alert("Erro", "Data inválida. Verifique se a data está correta.");
+      }
+    }
+  };
+
+  const handleTimeChange = (valor: string) => {
+    const horarioFormatado = inputTimeFormating(valor);
+    setTime(horarioFormatado);
+
+    const horarioLimpo = valor.replace(/\D/g, "");
+    if (horarioLimpo.length === 4) {
+      if (!timeValidation(horarioFormatado)) {
+        Alert.alert("Erro", "Horário inválido. Verifique se o horário está correto.");
       }
     }
   };
@@ -142,6 +168,20 @@ export function MeasureForm() {
       dataObj.getMonth() === mes - 1 &&
       dataObj.getFullYear() === ano
     );
+  };
+
+  const timeValidation = (horario: string): boolean => {
+    const horarioLimpo = horario.replace(/\D/g, "");
+
+    if (horarioLimpo.length !== 4) return false;
+
+    const horas = parseInt(horarioLimpo.slice(0, 2));
+    const minutos = parseInt(horarioLimpo.slice(2, 4));
+
+    if (horas < 0 || horas > 23) return false;
+    if (minutos < 0 || minutos > 59) return false;
+
+    return true;
   };
 
   async function handleMeasure(measureId: string | string[]) {
@@ -169,11 +209,6 @@ export function MeasureForm() {
     setMeasureDetails("");
   }
 
-  // const handleLogout = async () => {
-  //   await logout();
-  //   router.replace("/login");
-  // };
-
   useEffect(() => {
     if (measureDetails != "") {
       handleMeasure(measureDetails);
@@ -187,6 +222,7 @@ export function MeasureForm() {
         accessibilityLabel="Contagem"
         onChangeText={setSugarLevel}
         value={sugarLevel}
+        keyboardType="numeric"
       />
       <DefaultInput
         label="Data:"
@@ -198,15 +234,18 @@ export function MeasureForm() {
       />
       <DefaultInput
         label="Horário:"
-        accessibilityLabel="time"
-        onChangeText={setTime}
+        accessibilityLabel="Horário da Medição:"
+        onChangeText={handleTimeChange}
         value={time}
+        keyboardType="number-pad"
+        placeholder="HH:MM"
       />
       <DefaultInput
         label="Descrição"
         accessibilityLabel="Descrição"
         onChangeText={setDescription}
         value={description}
+        autoCapitalize="sentences"
       />
       <View style={id == "" ? styles.actionsCreate : styles.actionsEdit}>
         {id ? (

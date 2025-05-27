@@ -33,10 +33,12 @@ export function useUserDatabase() {
         $district: data.district,
         $city: data.city,
         $state: data.state,
-        $password: data.password,
+        $password: data.password
       });
 
       const insertedRowId = result.lastInsertRowId.toLocaleString();
+
+      console.log(getUserById(insertedRowId));
 
       return { insertedRowId };
     } catch (error) {

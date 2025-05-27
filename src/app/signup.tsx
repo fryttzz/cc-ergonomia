@@ -276,7 +276,7 @@ export default function SignIn() {
       district: neighborhood,
       city: city,
       state: state,
-      password: password,
+      password: String(password),
     });
     router.replace({ pathname: "/(app)" });
     Alert.alert("Sucesso", "Usuário cadastro com sucesso!");
