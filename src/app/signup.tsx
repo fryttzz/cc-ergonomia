@@ -333,6 +333,7 @@ export default function SignIn() {
             value={email}
             autoCapitalize="none"
             keyboardType="email-address"
+            placeholder="exemplo@email.com"
           />
           <DefaultInput
             label="Senha:"

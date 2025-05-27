@@ -144,7 +144,10 @@ export function MeasureForm() {
     const horarioLimpo = valor.replace(/\D/g, "");
     if (horarioLimpo.length === 4) {
       if (!timeValidation(horarioFormatado)) {
-        Alert.alert("Erro", "Horário inválido. Verifique se o horário está correto.");
+        Alert.alert(
+          "Erro",
+          "Horário inválido. Verifique se o horário está correto."
+        );
       }
     }
   };
@@ -223,6 +226,7 @@ export function MeasureForm() {
         onChangeText={setSugarLevel}
         value={sugarLevel}
         keyboardType="numeric"
+        placeholder="EX: 120"
       />
       <DefaultInput
         label="Data:"
@@ -246,6 +250,7 @@ export function MeasureForm() {
         onChangeText={setDescription}
         value={description}
         autoCapitalize="sentences"
+        placeholder="EX: Medição do meio dia."
       />
       <View style={id == "" ? styles.actionsCreate : styles.actionsEdit}>
         {id ? (
